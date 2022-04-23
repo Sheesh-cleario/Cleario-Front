@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Manager order formation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js">
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<script src="scripts/consts.js"></script>
+<!--manager order formation content-->
+<div id="back" class="back">
+    <div class="title"><h2>Формирование заказа</h2></div>
+    <div class="line"></div>
+    <form id="sendData" method="POST">
+        <div class="select">
+            <label>Объект</label>
+            <select class="form-select" aria-label="Select object" id="form-select">
+                <script src="scripts/sendRequest.js"></script>
+                <script>
+                    const draggable_list = document.getElementById('form-select')
+
+
+                    sendRequest('GET', allObjectUrl)
+                        .then(data => localStorage.setItem('allObjects',JSON.stringify(data)))
+                        .catch(err => console.log(err))
+
+                    const allObjects = JSON.parse(localStorage['allObjects'])
+
+                        for(let i = 0; i < allObjects.length; i++) {
+                            const listItem = document.createElement('option');
+                            listItem.setAttribute('value', allObjects[i]['objectId']);
+                            if (i === 0) {
+                                listItem.setAttribute('selected', 'selected');
+                            }
+                            listItem.innerHTML = `${allObjects[i]['name']}`;
+                            draggable_list.appendChild(listItem);
+                        }
+
+                </script>
+            </select>
+        </div>
+            <label>Время начала работы</label>
+            <div class="date-time">
+                <div class="row">
+                    <div class='col-sm-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='dateTimeStartTime'>
+                                <input type='text' class="form-control" id="startTime" />
+                                <span class="input-group-addon">
+               <span class="glyphicon glyphicon-calendar"></span>
+               </span>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#dateTimeStartTime').datetimepicker({
+                                format: 'DD/MM/YYYY HH:mm'
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+
+            <label>Время окончания работы</label>
+        <div class="date-time">
+            <div class="row">
+                <div class='col-sm-6'>
+                    <div class="form-group">
+                        <div class='input-group date' id='dateTimeEndTime'>
+                            <input type='text' class="form-control" id="endTime" />
+                            <span class="input-group-addon">
+               <span class="glyphicon glyphicon-calendar"></span>
+               </span>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#dateTimeEndTime').datetimepicker({
+                            format: 'DD/MM/YYYY HH:mm'
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+
+        <script>
+            $('#startTime').datetimepicker({format: 'DD/MM/YYYY HH:mm'});
+            $('#endTime').datetimepicker({format: 'DD/MM/YYYY HH:mm'});
+        </script>
+
+        <div class="choose-workers">
+            <label>Исполнители</label>
+            <div id="workers" class="workers">
+
+            </div>
+            <dialog>
+                <div class="main-dialog" id="all">
+
+                </div>
+                <button id="close">Готово</button>
+            </dialog>
+
+            <input id="btn" type="button" name="add" value="+">
+
+        </div>
+    </form>
+
+    <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="Сохранить">
+    <script src = 'scripts/showWorkers.js'></script>
+    <script>
+
+        function normalizationOfDate(str) {
+            let day = str.substr(0, 2);
+            let month = str.substr(3, 2);
+            let year = str.substr(6, 4);
+            let minutes = str.substr(11, 2);
+            let seconds = str.substr(14, 2);
+            return year + "-" + month + "-" + day + "T" + minutes + ":" + seconds + ":00.000Z";
+        }
+
+        function sendOrder() {
+
+            const data = {};
+            data.objectId = $('#form-select').find('option:selected').val()
+            data.timeStart = normalizationOfDate(document.getElementById('startTime').value)
+            data.timeEnd = normalizationOfDate(document.getElementById('endTime').value)
+            data.cleanerId = JSON.parse(localStorage.getItem("listId"))
+
+            sendRequest('POST', addOrder, 'application/json', data)
+                .catch(data => console.log(data))
+        }
+    </script>
+
+</div>
+<!--manager order formation content-->
+
+</body>
+</html>
