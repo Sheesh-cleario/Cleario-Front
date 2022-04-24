@@ -93,14 +93,34 @@ input {
 
 .choose-workers {
     width: 1114px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .choose-workers input {
     width: 500px;
-    margin-left: 307px;
     margin-bottom: 10px;
     background-color: white;
     border-style: none;
+}
+
+.choose-workers button{
+
+    width: 400px;
+    margin-top: 30px;
+    height: 35px;
+    color: white;
+    background-color: #4056A1 ;
+    border-style: none;
+    font-family: Inter regular, serif;
+    border-radius: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.choose-workers label{
+    align-self: flex-start;
 }
 
 .main-dialog {
@@ -193,7 +213,7 @@ dialog {
 dialog button {
     border-radius: 20px;
     width: 150px;
-    margin-left: 460px;
+    margin-left: 330px;
     margin-top: 20px;
     border-style: none;
     background-color: #4056A1;

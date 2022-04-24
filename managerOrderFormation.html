@@ -20,6 +20,7 @@
 </head>
 <body>
 <script src="scripts/consts.js"></script>
+<script src="scripts/sendRequest.js"></script>
 <!--manager order formation content-->
 <div id="back" class="back">
     <div class="title"><h2>Формирование заказа</h2></div>
@@ -27,27 +28,30 @@
     <form id="sendData" method="POST">
         <div class="select">
             <label>Объект</label>
-            <select class="form-select" aria-label="Select object" id="form-select">
-                <script src="scripts/sendRequest.js"></script>
+            <script src="scripts/changeNumberOfWorkers.js"></script>
+            <select class="form-select" aria-label="Select object" id="form-select" onchange="localStorage.setItem('objectId', JSON.stringify(this.selectedIndex+1));changeNumber()">
+
                 <script>
                     const draggable_list = document.getElementById('form-select')
 
 
                     sendRequest('GET', allObjectUrl)
-                        .then(data => localStorage.setItem('allObjects',JSON.stringify(data)))
+                        .then(allObjects => {
+                            for(let i = 0; i < allObjects.length; i++) {
+                                const listItem = document.createElement('option');
+                                listItem.setAttribute('value', allObjects[i]['objectId']);
+                                if (i === 0) {
+                                    listItem.setAttribute('selected', 'selected');
+                                }
+                                listItem.innerHTML = `${allObjects[i]['name']}`;
+                                draggable_list.appendChild(listItem);
+                            }
+                        })
                         .catch(err => console.log(err))
 
-                    const allObjects = JSON.parse(localStorage['allObjects'])
+                  //  const allObjects = JSON.parse(localStorage['allObjects'])
 
-                        for(let i = 0; i < allObjects.length; i++) {
-                            const listItem = document.createElement('option');
-                            listItem.setAttribute('value', allObjects[i]['objectId']);
-                            if (i === 0) {
-                                listItem.setAttribute('selected', 'selected');
-                            }
-                            listItem.innerHTML = `${allObjects[i]['name']}`;
-                            draggable_list.appendChild(listItem);
-                        }
+
 
                 </script>
             </select>
@@ -104,7 +108,16 @@
         </script>
 
         <div class="choose-workers">
-            <label>Исполнители</label>
+            <label id="label">Исполнители</label>
+            <script>
+                let select = document.getElementById('form-select')
+                localStorage.setItem('objectId', '1')
+                changeNumber()
+            </script>
+
+            <button type="button" onclick="autoselect()">Автоподбор</button>
+
+
             <div id="workers" class="workers">
 
             </div>
@@ -112,7 +125,7 @@
                 <div class="main-dialog" id="all">
 
                 </div>
-                <button id="close">Готово</button>
+                <button id="close" class="dlg-btn">Готово</button>
             </dialog>
 
             <input id="btn" type="button" name="add" value="+">
@@ -122,6 +135,7 @@
 
     <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="Сохранить">
     <script src = 'scripts/showWorkers.js'></script>
+    <script src="scripts/autoselect.js"></script>
     <script>
 
         function normalizationOfDate(str) {
@@ -143,6 +157,10 @@
 
             sendRequest('POST', addOrder, 'application/json', data)
                 .catch(data => console.log(data))
+
+            // let allOrders = JSON.parse(localStorage.getItem('allOrders'))
+            // allOrders.push(data)
+            // localStorage.setItem('allOrders',JSON.stringify(allOrders))
 
             window.location.href='manager.html'
         }

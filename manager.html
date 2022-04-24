@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
           integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 <body>
+<script src="scripts/consts.js"></script>
+<script src="scripts/sendRequest.js"></script>
 
 <!--manager header-->
 <header class="header">
@@ -58,58 +60,10 @@
 
         <ul id="allOrders">
         </ul>
-
+        <script src="scripts/loadOrders.js"></script>
     </div>
 
-    <script>
-        const draggable_list = document.getElementById('allOrders');
-        var index = 0;
 
-        let url = 'https://localhost:7073/api/Order/all';
-        const allOrdersRequest = new XMLHttpRequest();
-        allOrdersRequest.open("GET", url, true);
-        allOrdersRequest.onload = function () {
-            //const allOrders = JSON.parse(allOrdersRequest.responseText);
-            //localStorage.setItem('allOrders', JSON.parse(allOrdersRequest.responseText));
-            localStorage.setItem('allOrders', JSON.stringify(JSON.parse(allOrdersRequest.responseText)));
-        }
-        allOrdersRequest.send(null);
-        Load();
-
-        function Load() {
-            const allOrders = JSON.parse(localStorage.getItem("allOrders"));
-            console.log(allOrders);
-            for(let i = index; i < allOrders.length; i++){
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `
-                <a style="text-decoration: none" href="managerOrderFormation.html">
-                    <div class="order manager-order">
-                        <div>
-                            <div class="order-number">
-                                <span>${allOrders[i]['orderName']}, ${allOrders[i]['orderLocation']}</span>
-                            </div>
-                            <div class="order-date">
-                                <span>${allOrders[i]['orderStart']}</span>
-                            </div>
-                        </div>
-                        <div class="order-status">
-                            <button class="button manager-button">
-                                <i class="fa fa-exclamation-circle fa-3x" aria-hidden="true"></i>
-                                <span class="manager-button-text">Ожидание начала</span>
-                            </button>
-                        </div>
-
-                    </div>
-                </a>
-                `;
-
-                draggable_list.appendChild(listItem);
-                index = allOrders.length;
-            }
-        }
-
-        setInterval(Load, 5000);
-    </script>
 
     <div style="text-align: center">
         <button class="order-button" id="order-button" style="margin-top: 80px">
