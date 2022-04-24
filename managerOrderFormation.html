@@ -156,13 +156,17 @@
             data.cleanerId = JSON.parse(localStorage.getItem("listId"))
 
             sendRequest('POST', addOrder, 'application/json', data)
+                .then( value => {
+                    console.log(value)
+                    window.location.href='manager.html'
+                })
                 .catch(data => console.log(data))
 
             // let allOrders = JSON.parse(localStorage.getItem('allOrders'))
             // allOrders.push(data)
             // localStorage.setItem('allOrders',JSON.stringify(allOrders))
 
-            window.location.href='manager.html'
+
         }
     </script>
 
