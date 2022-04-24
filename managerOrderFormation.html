@@ -110,7 +110,6 @@
         <div class="choose-workers">
             <label id="label">Исполнители</label>
             <script>
-                let select = document.getElementById('form-select')
                 localStorage.setItem('objectId', '1')
                 changeNumber()
             </script>
@@ -136,6 +135,7 @@
     <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="Сохранить">
     <script src = 'scripts/showWorkers.js'></script>
     <script src="scripts/autoselect.js"></script>
+
     <script>
 
         function normalizationOfDate(str) {
@@ -159,6 +159,7 @@
                 .then( value => {
                     console.log(value)
                     window.location.href='manager.html'
+
                 })
                 .catch(data => console.log(data))
 

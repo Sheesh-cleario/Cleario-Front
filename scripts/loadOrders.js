@@ -10,9 +10,9 @@ getOrders()
 
 function getOrders(){
     sendRequest('GET', allOrder)
-        .then(data => localStorage.setItem('allOrders', JSON.stringify(data)))
+        .then(data => {localStorage.setItem('allOrders', JSON.stringify(data)); Load()})
         .catch(err => console.log(err))
-    Load()
+
 }
 
 function Load() {
