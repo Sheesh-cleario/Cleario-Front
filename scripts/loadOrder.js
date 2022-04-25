@@ -8,6 +8,8 @@ function setWorkers(workers)
         {
             loadedId.push(item['cleanerId'])
             checkbox.checked = true
+            let elem = checkbox.parentNode.parentNode
+            elem.setAttribute('hidden','true')
         }
     })
     localStorage.setItem('loadedId',JSON.stringify(loadedId))

@@ -32,31 +32,7 @@
       <script src="scripts/changeNumberOfWorkers.js"></script>
       <select class="form-select" aria-label="Select object" id="form-select" >
 
-        <script>
 
-          const select = document.getElementById('form-select')
-          const url = loadOrderUrl+localStorage.getItem('orderId')
-
-          sendRequest('GET', url)
-                  .then(orderInfo => {
-                    console.log(orderInfo)
-                    const option = document.createElement('option');
-                    option.setAttribute('value', orderInfo['cleaningObject']['Id']);
-                    option.setAttribute('selected', 'selected');
-                    option.innerHTML = `${orderInfo['cleaningObject']['objectName']}`;
-                    select.appendChild(option);
-                    localStorage.setItem('orderInfo',JSON.stringify(orderInfo))
-                    select.disabled = true;
-                    localStorage.setItem('objectId',orderInfo['cleaningObjectId'])
-                    changeNumber()
-                  })
-                  .catch(err => console.log(err))
-
-          //  const allObjects = JSON.parse(localStorage['allObjects'])
-
-
-
-        </script>
       </select>
     </div>
     <label>Время начала работы</label>
@@ -73,14 +49,7 @@
           </div>
         </div>
         <script type="text/javascript">
-          let obj = JSON.parse(localStorage.getItem('orderInfo'))
-          let date = obj['timeStart']
-          $(function () {
-            $('#dateTimeStartTime').datetimepicker({
-              format: 'DD/MM/YYYY HH:mm',
-              defaultDate: `${date}`
-            });
-          });
+
         </script>
       </div>
     </div>
@@ -100,13 +69,7 @@
         </div>
         <script type="text/javascript">
           //let obj = JSON.parse(localStorage.getItem('orderInfo'))
-          let dateEnd = obj['timeEnd']
-          $(function () {
-            $('#dateTimeEndTime').datetimepicker({
-              format: 'DD/MM/YYYY HH:mm',
-              defaultDate: `${dateEnd}`
-            });
-          });
+
 
         </script>
       </div>
@@ -137,56 +100,101 @@
 
     </div>
   </form>
-
-  <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="Сохранить">
   <script src = 'scripts/showWorkers.js'></script>
-  <script src="scripts/autoselect.js"></script>
+  <script>
+
+    const select = document.getElementById('form-select')
+    const url = loadOrderUrl+localStorage.getItem('orderId')
+
+    sendRequest('GET', url)
+            .then(orderInfo => {
+              console.log(orderInfo)
+              const option = document.createElement('option');
+              option.setAttribute('value', orderInfo['cleaningObject']['Id']);
+              option.setAttribute('selected', 'selected');
+              option.innerHTML = `${orderInfo['cleaningObject']['objectName']}`;
+              select.appendChild(option);
+              localStorage.setItem('orderInfo',JSON.stringify(orderInfo))
+              select.disabled = true;
+              localStorage.setItem('objectId',orderInfo['cleaningObjectId'])
+              changeNumber()
+              let obj = JSON.parse(localStorage.getItem('orderInfo'))
+              let date = obj['timeStart']
+              $(function () {
+                $('#dateTimeStartTime').datetimepicker({
+                  format: 'DD/MM/YYYY HH:mm',
+                  defaultDate: `${date}`
+                });
+              });
+              let dateEnd = obj['timeEnd']
+              $(function () {
+                $('#dateTimeEndTime').datetimepicker({
+                  format: 'DD/MM/YYYY HH:mm',
+                  defaultDate: `${dateEnd}`
+                });
+              });
+              let workers = obj['cleaners']
+
+              setWorkers(workers)
+
+
+              showWorkers()
+
+              function normalizationOfDate(str) {
+                let day = str.substr(0, 2);
+                let month = str.substr(3, 2);
+                let year = str.substr(6, 4);
+                let minutes = str.substr(11, 2);
+                let seconds = str.substr(14, 2);
+                return year + "-" + month + "-" + day + "T" + minutes + ":" + seconds + ":00.000Z";
+              }
+
+
+
+
+                // let allOrders = JSON.parse(localStorage.getItem('allOrders'))
+                // allOrders.push(data)
+                // localStorage.setItem('allOrders',JSON.stringify(allOrders))
+
+            })
+            .catch(err => console.log(err))
+
+    //  const allObjects = JSON.parse(localStorage['allObjects'])
+
+
+
+  </script>
 
   <script>
-    let workers = obj['cleaners']
-    setWorkers(workers)
-
-    showWorkers()
-
-    function normalizationOfDate(str) {
-      let day = str.substr(0, 2);
-      let month = str.substr(3, 2);
-      let year = str.substr(6, 4);
-      let minutes = str.substr(11, 2);
-      let seconds = str.substr(14, 2);
-      return year + "-" + month + "-" + day + "T" + minutes + ":" + seconds + ":00.000Z";
-    }
-
     function sendOrder() {
-
+      let obj = JSON.parse(localStorage.getItem('orderInfo'))
       let cleanerId = JSON.parse(localStorage.getItem("listId"))
       let oldId = obj['cleaners']
-      let url = newCleanerUrl+obj['id']+'?cleanerId='
-      cleanerId.forEach(function (item, i, arr)
-      {
+      let url = newCleanerUrl + obj['id'] + '?cleanerId='
+      cleanerId.forEach(function (item, i, arr) {
         let found = false
-        for (i = 0; i < oldId.length; i++)
-        {
-          if (oldId[i]['cleanerId'] === item){
+        for (i = 0; i < oldId.length; i++) {
+          if (oldId[i]['cleanerId'] === item) {
             found = true
             break
           }
         }
-        if (!found){
-          let fullUrl = url+item
-          sendRequest('POST',fullUrl)
-                  .then( value => window.location.href='manager.html')
-                  .catch( err => console.log(err))
-        }
+        if (!found) {
+          let fullUrl = url + item
+          sendRequest('POST', fullUrl)
+                  .then(value => window.location.href = 'manager.html')
+                  .catch(err => console.log(err))
+        }else window.location.href = 'manager.html'
+
       })
-
-
-      // let allOrders = JSON.parse(localStorage.getItem('allOrders'))
-      // allOrders.push(data)
-      // localStorage.setItem('allOrders',JSON.stringify(allOrders))
-
-
     }
+  </script>
+  <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="Сохранить">
+
+  <script src="scripts/autoselect.js"></script>
+
+  <script>
+
   </script>
 
 </div>

@@ -37,11 +37,11 @@ function getList(people) {
   loadedId = JSON.parse(localStorage.getItem('loadedId'))
   let html = '';
   people.forEach(function (item, i, arr) {
-    let hidden=''
-    if (checkForPreload(item['cleanerId']))
-      hidden = 'hidden =\'true\''
+   // let hidden=''
+   // if (checkForPreload(item['cleanerId']))
+   //   hidden = 'hidden =\'true\''
 
-      html += "<div class=\"worker\"" +hidden+"> <div class=\"info\"> <span>" + item['cleanerName'] + "</span> <span>" + item['phoneNumber'] + "</span> </div>" +
+      html += "<div class=\"worker\"> <div class=\"info\"> <span>" + item['cleanerName'] + "</span> <span>" + item['phoneNumber'] + "</span> </div>" +
           "<div class=\"add\">" +
           "<input type=\"checkbox\" id=\"" + item['cleanerId'] + "\">" +
           "</div>" +
