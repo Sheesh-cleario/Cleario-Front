@@ -32,27 +32,27 @@
             <select class="form-select" aria-label="Select object" id="form-select" onchange="localStorage.setItem('objectId',document.getElementById('form-select')[this.selectedIndex].value);changeNumber()">
 
                 <script>
-                    const draggable_list = document.getElementById('form-select')
-
+                    localStorage.removeItem('loadedId')
+                    let select = document.getElementById('form-select')
 
                     sendRequest('GET', allObjectUrl)
-                        .then(allObjects => {
-                            console.log(allObjects)
-                            for(let i = 0; i < allObjects.length; i++) {
-                                let listItem = document.createElement('option');
+                            .then(allObjects => {
+                                console.log(allObjects)
+                                for(let i = 0; i < allObjects.length; i++) {
+                                    let option = document.createElement('option');
 
-                                listItem.setAttribute('value', allObjects[i]['objectId']);
-                                if (i === 0) {
-                                    listItem.setAttribute('selected', 'selected');
+                                    option.setAttribute('value', allObjects[i]['objectId']);
+                                    if (i === 0) {
+                                        option.setAttribute('selected', 'selected');
+                                    }
+                                    option.innerHTML = `${allObjects[i]['name']}`;
+                                    select.appendChild(option);
                                 }
-                                listItem.innerHTML = `${allObjects[i]['name']}`;
-                                draggable_list.appendChild(listItem);
-                            }
-                            localStorage.setItem('objectId',allObjects[0]['objectId'])
-                        })
-                        .catch(err => console.log(err))
+                                localStorage.setItem('objectId',allObjects[0]['objectId'])
+                                changeNumber()
+                            })
+                            .catch(err => console.log(err))
 
-                  //  const allObjects = JSON.parse(localStorage['allObjects'])
 
 
 

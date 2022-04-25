@@ -115,7 +115,7 @@ function load(allOrders) {
         const listItem = document.createElement('li');
         let href = nextPage(allOrders[i]['status']);
         listItem.innerHTML = `
-                <a style="text-decoration: none" href="${href}" onclick="setOrderId(${allOrders[i]['orderId']})">
+                <a style="text-decoration: none" href="${href}" onclick="setOrder(${allOrders[i]['orderId']},${allOrders[i]['status']})">
                     <div class="order manager-order">
                         <div>
                             <div class="order-number">
@@ -135,9 +135,10 @@ function load(allOrders) {
         draggable_list.appendChild(listItem);
     }
 }
-function setOrderId(id)
+function setOrder(id, orderStatus)
 {
     localStorage.setItem('orderId',id)
+    localStorage.setItem('orderStatus', orderStatus)
 }
 
 function nextPage(orderStatus)
@@ -147,7 +148,7 @@ function nextPage(orderStatus)
     switch (orderStatus){
         case 0:
             status='0'
-            href='managerOrderFormation.html'
+            href='managerOrderReview.html'
             break
         case 1:
             status='1'
@@ -170,6 +171,7 @@ function nextPage(orderStatus)
             href='managerOrderReview.html'
             break
     }
+
     return href
 }
 

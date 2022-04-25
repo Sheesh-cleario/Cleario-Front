@@ -73,6 +73,7 @@
 
     <script>
         document.getElementById('order-button').onclick = function() {
+            localStorage.setItem('orderStatus', '-1')
             window.location.href = 'managerOrderFormation.html';
         };
     </script>
