@@ -5,6 +5,7 @@ function changeNumber()
     if (label != null)
     {
         let url = objectById + localStorage.getItem('objectId')
+        console.log(url)
         var response = {}
         sendRequest('GET',url)
             .then( (value)  =>  {

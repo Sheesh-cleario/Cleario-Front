@@ -29,7 +29,7 @@
         <div class="select">
             <label>Объект</label>
             <script src="scripts/changeNumberOfWorkers.js"></script>
-            <select class="form-select" aria-label="Select object" id="form-select" onchange="localStorage.setItem('objectId', JSON.stringify(this.selectedIndex+1));changeNumber()">
+            <select class="form-select" aria-label="Select object" id="form-select" onchange="localStorage.setItem('objectId',document.getElementById('form-select')[this.selectedIndex].value);changeNumber()">
 
                 <script>
                     const draggable_list = document.getElementById('form-select')
@@ -37,8 +37,10 @@
 
                     sendRequest('GET', allObjectUrl)
                         .then(allObjects => {
+                            console.log(allObjects)
                             for(let i = 0; i < allObjects.length; i++) {
-                                const listItem = document.createElement('option');
+                                let listItem = document.createElement('option');
+
                                 listItem.setAttribute('value', allObjects[i]['objectId']);
                                 if (i === 0) {
                                     listItem.setAttribute('selected', 'selected');
@@ -46,6 +48,7 @@
                                 listItem.innerHTML = `${allObjects[i]['name']}`;
                                 draggable_list.appendChild(listItem);
                             }
+                            localStorage.setItem('objectId',allObjects[0]['objectId'])
                         })
                         .catch(err => console.log(err))
 
@@ -110,7 +113,6 @@
         <div class="choose-workers">
             <label id="label">Исполнители</label>
             <script>
-                localStorage.setItem('objectId', '1')
                 changeNumber()
             </script>
 

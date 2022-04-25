@@ -99,8 +99,8 @@ const listId = [];
 
 function showWorkers() {
   people.forEach(function (item, i, arr) {
-    let str = '';
-    str += item['cleanerId'];
+    let str = JSON.stringify(item['cleanerId']);
+    //str += item['cleanerId'];
     let elem = document.getElementById("worker" + item['cleanerName']);
     if (document.getElementById(str).checked) {
       if (elem == null) {

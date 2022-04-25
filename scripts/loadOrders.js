@@ -1,5 +1,5 @@
 const draggable_list = document.getElementById('allOrders');
-var index = 0;
+
 
 getOrders()
 /*sendRequest('GET', allOrder)
@@ -10,13 +10,12 @@ getOrders()
 
 function getOrders(){
     sendRequest('GET', allOrder)
-        .then(data => {localStorage.setItem('allOrders', JSON.stringify(data)); Load()})
+        .then(data => load(data))
         .catch(err => console.log(err))
 
 }
 
-function Load() {
-    const allOrders = JSON.parse(localStorage.getItem("allOrders"));
+function load(allOrders) {
 
     let elem = document.getElementById('allOrders');
     elem.parentNode.removeChild(elem);
@@ -114,8 +113,9 @@ function Load() {
 
     for(let i = 0; i < allOrders.length; i++) {
         const listItem = document.createElement('li');
+        let href = nextPage(allOrders[i]['status']);
         listItem.innerHTML = `
-                <a style="text-decoration: none" href="managerOrderFormation.html">
+                <a style="text-decoration: none" href="${href}" onclick="setOrderId(${allOrders[i]['orderId']})">
                     <div class="order manager-order">
                         <div>
                             <div class="order-number">
@@ -135,5 +135,42 @@ function Load() {
         draggable_list.appendChild(listItem);
     }
 }
+function setOrderId(id)
+{
+    localStorage.setItem('orderId',id)
+}
 
-setInterval(getOrders, 5000);
+function nextPage(orderStatus)
+{
+    let href=''
+    let status =''
+    switch (orderStatus){
+        case 0:
+            status='0'
+            href='managerOrderFormation.html'
+            break
+        case 1:
+            status='1'
+            href='managerOrderChangeWorkers.html'
+            break
+        case 2:
+            status='2'
+            href='managerOrderChangeWorkers.html'
+            break
+        case 3:
+            status='3'
+            href='managerOrderReview.html'
+            break
+        case 4:
+            status='4'
+            href='managerOrderReview.html'
+            break
+        case 5:
+            status='5'
+            href='managerOrderReview.html'
+            break
+    }
+    return href
+}
+
+//setInterval(getOrders, 5000);
