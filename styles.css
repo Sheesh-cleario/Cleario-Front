@@ -99,11 +99,16 @@ input {
 }
 
 .choose-workers input {
-    width: 500px;
+    width: 400px;
     margin-bottom: 10px;
     background-color: white;
     border-style: none;
 }
+
+.choose-workers input:hover{
+    background-color: #f6f6f6;
+}
+
 
 .choose-workers button{
 
@@ -111,12 +116,15 @@ input {
     margin-top: 30px;
     height: 35px;
     color: white;
-    background-color: #4056A1 ;
+    background-color: #334487;
     border-style: none;
     font-family: Inter regular, serif;
     border-radius: 20px;
     font-size: 24px;
     margin-bottom: 20px;
+}
+.choose-workers button:hover{
+    background-color: #22358D;
 }
 
 .choose-workers label{
@@ -199,6 +207,8 @@ input {
     border-radius: 25px;
 }
 
+
+
 dialog {
     width: 1114px;
     border-color: #8E8D8A;
@@ -226,6 +236,10 @@ dialog button {
     color: white;
     background-color: #E85A4F;
     border-style: none;
+}
+
+.submit-btn:hover{
+    background-color: #dc2b23;
 }
 
 #close {
