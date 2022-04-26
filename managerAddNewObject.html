@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Manager add new object</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<script src="scripts/consts.js"></script>
+<script src="scripts/sendRequest.js"></script>
+<!--manager add new object content-->
+<div id="back" class="back">
+  <div class="title"><h2>Добавление нового объекта</h2></div>
+  <div class="line"></div>
+  <form id="sendData" method="POST">
+    <label>Объект</label>
+    <input class="manager-add" id="objectName">
+    <label>Площадь объекта, м²</label>
+    <input class="manager-add" id="objectSquare">
+    <label>Местоположение</label>
+    <input class="manager-add" id="objectLocation">
+    <label>Контактный телефон</label>
+    <input class="manager-add" id="contactTelephone">
+    <label>Предположительный размер команды</label>
+    <input class="manager-add" id="usualTeamSize">
+
+  </form>
+
+  <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="Добавить">
+
+  <script>
+
+    function sendOrder() {
+      const data = {};
+
+      data.id = 56
+      data.objectName = document.getElementById("objectName").value
+      data.objectSquare = document.getElementById("objectSquare").value
+      data.objectLocation = document.getElementById("objectLocation").value
+      data.contactTelephone = document.getElementById("contactTelephone").value
+      data.usualTeamSize = document.getElementById("usualTeamSize").value
+
+      sendRequest('POST', addObject, 'application/json', data)
+              .then( value => {
+                console.log(value)
+                window.location.href='manager.html'
+
+              })
+              .catch(data => console.log(data))
+
+      // let allOrders = JSON.parse(localStorage.getItem('allOrders'))
+      // allOrders.push(data)
+      // localStorage.setItem('allOrders',JSON.stringify(allOrders))
+
+
+    }
+  </script>
+
+</div>
+<!--manager add new object content-->
+
+</body>
+</html>
