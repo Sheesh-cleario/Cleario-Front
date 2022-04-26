@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Manager order formation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js">
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<script src="scripts/consts.js"></script>
+<script src="scripts/sendRequest.js"></script>
+<script src="scripts/loadOrder.js"></script>
+<!--manager order formation content-->
+<div id="back" class="back">
+    <div class="title"><h2>Просмотр заказа</h2></div>
+    <div class="line"></div>
+    <form id="sendData" method="POST">
+        <div class="select">
+            <label>Объект</label>
+            <script src="scripts/changeNumberOfWorkers.js"></script>
+            <select class="form-select" aria-label="Select object" id="form-select" >
+
+
+            </select>
+        </div>
+        <label>Время начала работы</label>
+        <div class="date-time">
+            <div class="row">
+                <div class='col-sm-6'>
+                    <div class="form-group">
+                        <div class='input-group date' id='dateTimeStartTime'>
+                            <input type='text' class="form-control" id="startTime" disabled/>
+                            <span class="input-group-addon">
+               <span class="glyphicon glyphicon-calendar"></span>
+               </span>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+
+                </script>
+            </div>
+        </div>
+
+        <label>Время окончания работы</label>
+        <div class="date-time">
+            <div class="row">
+                <div class='col-sm-6'>
+                    <div class="form-group">
+                        <div class='input-group date' id='dateTimeEndTime'>
+                            <input type='text' class="form-control" id="endTime" disabled/>
+                            <span class="input-group-addon">
+               <span class="glyphicon glyphicon-calendar"></span>
+               </span>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    //let obj = JSON.parse(localStorage.getItem('orderInfo'))
+
+
+                </script>
+            </div>
+        </div>
+
+        <script>
+            $('#startTime').datetimepicker({format: 'DD/MM/YYYY HH:mm'});
+            $('#endTime').datetimepicker({format: 'DD/MM/YYYY HH:mm'});
+        </script>
+
+        <div class="choose-workers">
+            <label id="label">Исполнители</label>
+            <script>
+                changeNumber()
+            </script>
+
+            <div id="workers" class="workers">
+
+            </div>
+            <dialog>
+                <div class="main-dialog" id="all">
+
+                </div>
+                <button id="close" class="dlg-btn">Готово</button>
+            </dialog>
+
+            <input id="btn" type="button" name="add" value="+" hidden>
+
+        </div>
+    </form>
+    <script src = 'scripts/showWorkers.js'></script>
+    <script>
+
+        const select = document.getElementById('form-select')
+        const url = loadOrderUrl+localStorage.getItem('orderId')
+
+        sendRequest('GET', url)
+            .then(orderInfo => {
+                console.log(orderInfo)
+                const option = document.createElement('option');
+                option.setAttribute('value', orderInfo['cleaningObject']['Id']);
+                option.setAttribute('selected', 'selected');
+                option.innerHTML = `${orderInfo['cleaningObject']['objectName']}`;
+                select.appendChild(option);
+                localStorage.setItem('orderInfo',JSON.stringify(orderInfo))
+                select.disabled = true;
+                localStorage.setItem('objectId',orderInfo['cleaningObjectId'])
+                changeNumber()
+                let obj = JSON.parse(localStorage.getItem('orderInfo'))
+                let date = obj['timeStart']
+                $(function () {
+                    $('#dateTimeStartTime').datetimepicker({
+                        format: 'DD/MM/YYYY HH:mm',
+                        defaultDate: `${date}`
+                    });
+                });
+                let dateEnd = obj['timeEnd']
+                $(function () {
+                    $('#dateTimeEndTime').datetimepicker({
+                        format: 'DD/MM/YYYY HH:mm',
+                        defaultDate: `${dateEnd}`
+                    });
+                });
+                let workers = obj['cleaners']
+
+                setWorkers(workers)
+
+
+                showWorkers()
+
+                function normalizationOfDate(str) {
+                    let day = str.substr(0, 2);
+                    let month = str.substr(3, 2);
+                    let year = str.substr(6, 4);
+                    let minutes = str.substr(11, 2);
+                    let seconds = str.substr(14, 2);
+                    return year + "-" + month + "-" + day + "T" + minutes + ":" + seconds + ":00.000Z";
+                }
+
+
+
+
+                // let allOrders = JSON.parse(localStorage.getItem('allOrders'))
+                // allOrders.push(data)
+                // localStorage.setItem('allOrders',JSON.stringify(allOrders))
+
+            })
+            .catch(err => console.log(err))
+
+        //  const allObjects = JSON.parse(localStorage['allObjects'])
+
+
+
+    </script>
+
+    <script>
+        function sendOrder() {
+        window.location.href = 'manager.html'
+        }
+
+    </script>
+    <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="На главную страницу">
+
+    <script src="scripts/autoselect.js"></script>
+
+    <script>
+
+    </script>
+
+</div>
+<!--manager order formation content-->
+
+</body>
+</html>

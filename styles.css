@@ -624,13 +624,13 @@ dialog button {
 
 .order-button {
     border: 2px solid #E85A4F;
-    color: #E85A4F;
-    background: white;
+    color: white;
+    background: #E85A4F;
     justify-content: center;
     align-items: center;
 
-    width: 546px;
-    height: 102px;
+    width: 400px;
+    height: 70px;
 
     border-radius: 20px;
 }
@@ -638,8 +638,7 @@ dialog button {
 .order-button:hover {
     cursor: pointer;
     text-decoration: none;
-    background: #E85A4F;
-    color: white;
+    background: #e82519;
 }
 
 .button:hover {
