@@ -38,24 +38,14 @@
       data.cleanerName = document.getElementById("cleanerName").value
       data.phoneNumber = document.getElementById("phoneNumber").value
 
-      /*data.id = 56
-      data.objectName = document.getElementById("objectName").value
-      data.objectSquare = document.getElementById("objectSquare").value
-      data.objectLocation = document.getElementById("objectLocation").value
-      data.contactTelephone = document.getElementById("contactTelephone").value
-      data.usualTeamSize = document.getElementById("usualTeamSize").value*/
 
       sendRequest('POST', addWorker, 'application/json', data)
               .then( value => {
                 console.log(value)
-                //window.location.href='manager.html'
+                        // window.location.href='manager.html'
 
               })
               .catch(data => console.log(data))
-
-      // let allOrders = JSON.parse(localStorage.getItem('allOrders'))
-      // allOrders.push(data)
-      // localStorage.setItem('allOrders',JSON.stringify(allOrders))
 
 
     }

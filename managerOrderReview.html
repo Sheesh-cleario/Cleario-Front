@@ -148,19 +148,8 @@
                     return year + "-" + month + "-" + day + "T" + minutes + ":" + seconds + ":00.000Z";
                 }
 
-
-
-
-                // let allOrders = JSON.parse(localStorage.getItem('allOrders'))
-                // allOrders.push(data)
-                // localStorage.setItem('allOrders',JSON.stringify(allOrders))
-
             })
             .catch(err => console.log(err))
-
-        //  const allObjects = JSON.parse(localStorage['allObjects'])
-
-
 
     </script>
 
@@ -168,7 +157,6 @@
         function sendOrder() {
         window.location.href = 'manager.html'
         }
-
     </script>
     <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="На главную страницу">
 

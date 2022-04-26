@@ -1,12 +1,6 @@
 const draggable_list = document.getElementById('allOrders');
 
-
 getOrders()
-/*sendRequest('GET', allOrder)
-    .then(data => localStorage.setItem('allOrders', JSON.stringify(data)))
-    .catch(err => console.log(err))*/
-
-
 
 function getOrders(){
     sendRequest('GET', allOrder)
