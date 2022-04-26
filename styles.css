@@ -528,7 +528,7 @@ dialog button {
     box-shadow: 0 0 0 black;
 }
 
-.history-of-orders {
+.icon-navigation {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -571,7 +571,7 @@ dialog button {
     text-decoration: none;
 }
 
-.navigation ul li a .text-history-of-orders {
+.navigation ul li a .text-navigation {
     position: relative;
     padding: 0 15px;
     height: 90px;
@@ -583,12 +583,12 @@ dialog button {
     transition: 0.5s;
 }
 
-.navigation.open ul li a .text-history-of-orders {
+.navigation.open ul li a .text-navigation {
     opacity: 1;
     visibility: visible;
 }
 
-.text-history-of-orders {
+.text-navigation {
     font-family: 'Inter', serif;
     font-style: normal;
     font-weight: 600;
@@ -612,7 +612,7 @@ dialog button {
     font-family: 'Inter', serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 36px;
+    font-size: 28px;
     line-height: 44px;
 }
 
@@ -688,4 +688,15 @@ dialog button {
 
 .input-group-addon {
     border-radius: 20px;
+}
+
+.fa-building,
+.fa-user {
+    color: black;
+}
+
+.manager-add {
+    height: 64px;
+    width: 1114px;
+    border: 1px solid lightgrey;
 }
