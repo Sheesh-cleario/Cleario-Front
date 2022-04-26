@@ -117,7 +117,7 @@ function add(name, phone, id, addTime = false) {
   info.className = "info";
 
   let name_s = document.createElement('span');
-  name_s.textContent = name;
+  name_s.textContent = name+'(id: '+id+')';
   let phone_s = document.createElement('span');
   phone_s.textContent = phone;
 
