@@ -45,11 +45,9 @@
       sendRequest('POST', addObject, 'application/json', data)
               .then( value => {
                 console.log(value)
-                window.location.href='manager.html'
-
               })
               .catch(data => console.log(data))
-
+      window.location.href='manager.html'
     }
   </script>
 

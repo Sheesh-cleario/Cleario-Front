@@ -1,11 +1,4 @@
 
-
-
-// sendRequest('GET', cleanerAll, 'application/json')
-//     .then(data => localStorage.setItem('allPeople', JSON.stringify(data)))
-//     .catch(err => console.log(err))
-//
-// let people = JSON.parse(localStorage['allPeople'])
 let loadedId = JSON.parse(localStorage.getItem('loadedId'))
 
 
