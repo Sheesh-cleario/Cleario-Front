@@ -165,7 +165,6 @@
           added = true
           let fullUrl = url + item
           sendRequest('POST', fullUrl)
-                  .then(value => window.location.href = 'manager.html')
                   .catch(err => console.log(err))
         }
 
@@ -173,9 +172,12 @@
       if (added){
         let url = changeStatus+obj['id']+'?newStatus=3'
         sendRequest('POST',url)
+                .then(value => window.location.href = 'manager.html')
                 .catch(err => console.log(err))
       }
-      window.location.href = 'manager.html'
+      else
+        window.location.href = 'manager.html'
+
     }
   </script>
   <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="Сохранить">
