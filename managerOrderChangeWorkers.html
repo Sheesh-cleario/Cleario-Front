@@ -21,7 +21,6 @@
 <body>
 <script src="scripts/consts.js"></script>
 <script src="scripts/sendRequest.js"></script>
-<script src="scripts/loadOrder.js"></script>
 <!--manager order formation content-->
 <div id="back" class="back">
   <div class="title"><h2>Изменение заказа</h2></div>
@@ -135,10 +134,10 @@
               });
               let workers = obj['cleaners']
 
-              setWorkers(workers)
+
+              showList(true, workers)
 
 
-              showWorkers()
 
               function normalizationOfDate(str) {
                 let day = str.substr(0, 2);
@@ -148,13 +147,6 @@
                 let seconds = str.substr(14, 2);
                 return year + "-" + month + "-" + day + "T" + minutes + ":" + seconds + ":00.000Z";
               }
-
-
-
-
-                // let allOrders = JSON.parse(localStorage.getItem('allOrders'))
-                // allOrders.push(data)
-                // localStorage.setItem('allOrders',JSON.stringify(allOrders))
 
             })
             .catch(err => console.log(err))
@@ -171,6 +163,7 @@
       let cleanerId = JSON.parse(localStorage.getItem("listId"))
       let oldId = obj['cleaners']
       let url = newCleanerUrl + obj['id'] + '?cleanerId='
+      let added = false
       cleanerId.forEach(function (item, i, arr) {
         let found = false
         for (i = 0; i < oldId.length; i++) {
@@ -180,13 +173,20 @@
           }
         }
         if (!found) {
+          added = true
           let fullUrl = url + item
           sendRequest('POST', fullUrl)
                   .then(value => window.location.href = 'manager.html')
                   .catch(err => console.log(err))
-        }else window.location.href = 'manager.html'
+        }
 
       })
+      if (added){
+        let url = changeStatus+obj['id']+'?newStatus=3'
+        sendRequest('POST',url)
+                .catch(err => console.log(err))
+      }
+      window.location.href = 'manager.html'
     }
   </script>
   <input onclick="sendOrder()" class="submit-btn" type="submit" name="submit" value="Сохранить">

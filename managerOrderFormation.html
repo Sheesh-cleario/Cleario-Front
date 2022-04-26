@@ -29,7 +29,7 @@
         <div class="select">
             <label>Объект</label>
             <script src="scripts/changeNumberOfWorkers.js"></script>
-            <select class="form-select" aria-label="Select object" id="form-select" onchange="localStorage.setItem('objectId',document.getElementById('form-select')[this.selectedIndex].value);changeNumber()">
+            <select class="form-select" aria-label="Select object" id="form-select" onchange="localStorage.setItem('objectId',document.getElementById('form-select')[this.selectedIndex].value);changeNumber();unselectAll();showList()">
 
                 <script>
                     localStorage.removeItem('loadedId')
@@ -139,7 +139,7 @@
     <script src="scripts/autoselect.js"></script>
 
     <script>
-
+        showList()
         function normalizationOfDate(str) {
             let day = str.substr(0, 2);
             let month = str.substr(3, 2);

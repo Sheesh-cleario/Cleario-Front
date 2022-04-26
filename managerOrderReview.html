@@ -21,7 +21,6 @@
 <body>
 <script src="scripts/consts.js"></script>
 <script src="scripts/sendRequest.js"></script>
-<script src="scripts/loadOrder.js"></script>
 <!--manager order formation content-->
 <div id="back" class="back">
     <div class="title"><h2>Просмотр заказа</h2></div>
@@ -135,10 +134,10 @@
                 });
                 let workers = obj['cleaners']
 
-                setWorkers(workers)
+                showList(true, workers)
 
 
-                showWorkers()
+
 
                 function normalizationOfDate(str) {
                     let day = str.substr(0, 2);

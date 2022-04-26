@@ -189,6 +189,10 @@ input {
     font-size: 20px;
 }
 
+.delete button:hover{
+    background-color: #dc2b23;
+}
+
 .time-div{
     display: flex;
     flex-direction: column;

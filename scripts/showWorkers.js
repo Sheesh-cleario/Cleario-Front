@@ -1,9 +1,11 @@
 
-sendRequest('GET', cleanerAll, 'application/json')
-    .then(data => localStorage.setItem('allPeople', JSON.stringify(data)))
-    .catch(err => console.log(err))
 
-let people = JSON.parse(localStorage['allPeople'])
+
+// sendRequest('GET', cleanerAll, 'application/json')
+//     .then(data => localStorage.setItem('allPeople', JSON.stringify(data)))
+//     .catch(err => console.log(err))
+//
+// let people = JSON.parse(localStorage['allPeople'])
 let loadedId = JSON.parse(localStorage.getItem('loadedId'))
 
 
@@ -51,13 +53,59 @@ function getList(people) {
 
   return html;
 }
-
-function showList() {
-  let element = document.getElementById('all');
-  element.insertAdjacentHTML('beforeend', getList(people));
+function unselectAll(){
+  let people = JSON.parse(localStorage.getItem('allPeople'))
+  people.forEach(function (item,i,arr) {
+    let checkbox = document.getElementById(item['cleanerId'])
+    if (checkbox != null)
+    {
+      checkbox.checked = false
+    }
+  })
 }
 
-showList();
+function setWorkers(workers)
+{
+  let loadedId=[]
+  workers.forEach(function (item,i,arr){
+
+    let checkbox = document.getElementById(item['cleanerId'])
+    if (checkbox != null)
+    {
+      loadedId.push(item['cleanerId'])
+      checkbox.checked = true
+      let elem = checkbox.parentNode.parentNode
+      elem.setAttribute('hidden','true')
+    }
+  })
+  localStorage.setItem('loadedId',JSON.stringify(loadedId))
+}
+
+function showList(addWorkers = false, workers = []) {
+  let objectId = localStorage.getItem('objectId')
+  let url = objectById + localStorage.getItem('objectId')
+  sendRequest('GET', url)
+      .then( value => {
+        let address = value['objectLocation']
+        let fullUrl = cleanerAllByAddress+address
+        let people = JSON.parse(localStorage['allPeople'])
+        sendRequest('GET', fullUrl,'application/json')
+            .then( data => {
+              localStorage.setItem('allPeople', JSON.stringify(data))
+              let list = data
+              let element = document.getElementById('all')
+              element.insertAdjacentHTML('beforeend', getList(list))
+              if (addWorkers)
+                setWorkers(workers)
+              showWorkers()
+            })
+
+      })
+
+
+}
+
+//showList();
 
 function add(name, phone, id, addTime = false) {
   let div = document.getElementById('workers');
@@ -153,6 +201,7 @@ console.log(loadedId)
 
 
 function showWorkers() {
+  let people = JSON.parse(localStorage.getItem('allPeople'))
   loadedId = JSON.parse(localStorage.getItem('loadedId'))
   people.forEach(function (item, i, arr) {
     let str = JSON.stringify(item['cleanerId']);
@@ -167,6 +216,10 @@ function showWorkers() {
       }
     } else {
       if (elem != null) {
+        const myIndex = listId.indexOf(item['cleanerId']);
+        if (myIndex !== -1) {
+          listId.splice(myIndex, 1);
+        }
         elem.parentNode.removeChild(elem);
       }
     }

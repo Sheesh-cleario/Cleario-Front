@@ -175,4 +175,4 @@ function nextPage(orderStatus)
     return href
 }
 
-//setInterval(getOrders, 5000);
+setInterval(getOrders, 5000);
