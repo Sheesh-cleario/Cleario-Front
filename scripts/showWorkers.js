@@ -32,9 +32,6 @@ function getList(people) {
   loadedId = JSON.parse(localStorage.getItem('loadedId'))
   let html = '';
   people.forEach(function (item, i, arr) {
-   // let hidden=''
-   // if (checkForPreload(item['cleanerId']))
-   //   hidden = 'hidden =\'true\''
 
       html += "<div class=\"worker\"> <div class=\"info\"> <span>" + item['cleanerName'] + "</span> <span>" + item['phoneNumber'] + "</span> </div>" +
           "<div class=\"add\">" +
@@ -76,23 +73,26 @@ function setWorkers(workers)
 
 function showList(addWorkers = false, workers = []) {
   let objectId = localStorage.getItem('objectId')
-  let url = objectById + localStorage.getItem('objectId')
+  let url = objectById + objectId
   sendRequest('GET', url)
       .then( value => {
         let address = value['objectLocation']
         let fullUrl = cleanerAllByAddress+address
-        let people = JSON.parse(localStorage['allPeople'])
         sendRequest('GET', fullUrl,'application/json')
             .then( data => {
               localStorage.setItem('allPeople', JSON.stringify(data))
-              let list = data
               let element = document.getElementById('all')
-              element.insertAdjacentHTML('beforeend', getList(list))
+              const par = element.parentNode
+              par.removeChild(element)
+              element = document.createElement('div')
+              element.id = 'all'
+              element.className = 'main-dialog'
+              par.appendChild(element)
+              element.insertAdjacentHTML('beforeend', getList(data))
               if (addWorkers)
                 setWorkers(workers)
               showWorkers()
             })
-
       })
 
 
