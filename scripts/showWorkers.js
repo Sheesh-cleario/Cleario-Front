@@ -87,7 +87,8 @@ function showList(addWorkers = false, workers = []) {
               element = document.createElement('div')
               element.id = 'all'
               element.className = 'main-dialog'
-              par.appendChild(element)
+              const theFirstChild = par.firstChild
+              par.insertBefore(element, theFirstChild)
               element.insertAdjacentHTML('beforeend', getList(data))
               if (addWorkers)
                 setWorkers(workers)
